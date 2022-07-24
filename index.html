@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculator</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </head>
 <body>
     <header class="header">
@@ -15,15 +15,15 @@
     <main class="main">
         <div class="calculator">
             <div class="screen">
-                <p>0 &#10005; 0 = 0</p>
+                <p id="calculations"></p>
             </div>
             <div class="functional">
-                <button id="open-bracket">&#40;</button>
+                <button id="erase">&#9003;</button>
                 <button id="addition">&plus;</button>
                 <button id="seven">7</button>
                 <button id="eight">8</button>
                 <button id="nine">9</button>
-                <button id="close-bracket">&#41;</button>
+                <button id="clear">C</button>
                 <button id="subtraction">&minus;</button>
                 <button id="four">4</button>
                 <button id="five">5</button>
@@ -37,7 +37,7 @@
                 <button id="division">&#247;</button>
                 <button id="zero">0</button>
                 <button id="decimal">&middot;</button>
-                <button class="equals">&equals;</button>
+                <button id="equals">&equals;</button>
             </div>
         </div>
     </main>
