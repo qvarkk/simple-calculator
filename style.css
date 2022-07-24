@@ -50,7 +50,7 @@ body {
     justify-content: space-evenly;
     align-items: center;
     flex-direction: column;
-    width: 700px;
+    width: 800px;
     height: 650px;
     border: 5px solid var(--primary-dark);
 }
@@ -59,8 +59,8 @@ body {
     display: flex;
     align-items: center;
     padding: 10px;
-    width: 90%;
-    height: 15%;
+    width: 86%;
+    height: 20%;
     border: 5px solid var(--primary-dark);
     font-size: 55px;
     white-space: nowrap;
@@ -69,7 +69,22 @@ body {
 }
 
 .functional {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 10px;
     width: 90%;
-    height: 75%;
+    height: 70%;
+    border: 0px solid var(--primary-dark);
+}
+
+.functional > button {
     border: 5px solid var(--primary-dark);
+    font-weight: 700;
+    font-size: 30px;
+    color: var(--primary-dark);
+    height: 24%;
+    width: 19%;
+    margin: 2px;
 }
