@@ -12,6 +12,16 @@ let valueEnteredNow = 0;
 
 //removing
 
+function returnToDefault() {
+    lastAction = 'number';
+    lastOperator = '';
+    valueEnteredBefore = 0;
+    valueEnteredNow = 0;
+    screenNow.innerHTML = valueEnteredNow;
+    screenRecent.innerHTML = valueEnteredBefore;
+    screenRecent.classList.add('transparent');
+}
+
 //operators
 
 function getOperatorInput(operator) {
@@ -41,7 +51,11 @@ function getOperatorInput(operator) {
         lastOperator = operator;
         lastAction = 'operator';
     } else if (lastAction === 'equals') {
-        
+        valueEnteredBefore = screenNow.innerHTML;
+        screenRecent.innerHTML = screenNow.innerHTML + operator;
+
+        lastOperator = operator;
+        lastAction = 'operator';
     } else {
         return;
     }
@@ -50,13 +64,22 @@ function getOperatorInput(operator) {
 //numbers
 
 function getNumberInput(number) {
-    if (lastAction === 'equals' || lastAction === 'operator' || screenNow.innerHTML === '0') {
+    if (lastAction === 'operator' || screenNow.innerHTML === '0') {
         screenNow.innerHTML = number;
+        valueEnteredNow = screenNow.innerHTML;
+
+        lastAction = 'number';
+    } else if (lastAction === 'equals') { 
+        returnToDefault();
+
+        screenNow.innerHTML = number;
+
         valueEnteredNow = screenNow.innerHTML;
         lastAction = 'number';
     } else {
         screenNow.innerHTML += number;
         valueEnteredNow = screenNow.innerHTML;
+
         lastAction = 'number';
     }
 }
@@ -70,6 +93,8 @@ function finishEquasion() {
             screenNow.innerHTML = operate(lastOperator, valueEnteredBefore, valueEnteredNow);
             screenRecent.innerHTML = `${valueEnteredBefore}${lastOperator}${valueEnteredNow}=`
             lastAction = 'equals';
+        } else if (lastAction === 'operator') {
+            screenRecent.innerHTML = screenNow.innerHTML + '=';
         }
     } else {
         return;
