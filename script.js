@@ -40,6 +40,8 @@ function getOperatorInput(operator) {
 
         lastOperator = operator;
         lastAction = 'operator';
+    } else if (lastAction === 'equals') {
+        
     } else {
         return;
     }
