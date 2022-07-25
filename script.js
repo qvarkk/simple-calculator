@@ -208,6 +208,27 @@ function operate(operator, a, b) {
     }
 }
 
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'c') clearButton.click();
+    if (event.key === 'Backspace') eraseButton.click();
+    if (event.key === '+') additionButton.click();
+    if (event.key === '-') subtractionButton.click();
+    if (event.key === '*') multiplyButton.click();
+    if (event.key === '/') divisionButton.click();
+    if (event.key === '1') oneButton.click();
+    if (event.key === '2') twoButton.click();
+    if (event.key === '3') threeButton.click();
+    if (event.key === '4') fourButton.click();
+    if (event.key === '5') fiveButton.click();
+    if (event.key === '6') sixButton.click();
+    if (event.key === '7') sevenButton.click();
+    if (event.key === '8') eightButton.click();
+    if (event.key === '9') nineButton.click();
+    if (event.key === '0') zeroButton.click();
+    if (event.key === '.') decimalButton.click();
+    if (event.key === 'Enter') equalsButton.click();
+});
+
 let intervalId = window.setInterval(function(){
     if (screenNow.innerHTML.length > 11) {
         alert('Max char limit reached. To prevent anything from breaking calculator will be restarted!');
