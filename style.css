@@ -42,11 +42,12 @@ body {
     justify-content: center;
     align-items: center;
     max-width: 1100px;
-    height: 100vh;
+    height: 80vh;
     margin: 0 auto;
 }
 
 .calculator {
+    margin-top: 100px;
     display: flex;
     justify-content: start;
     align-items: center;
@@ -70,6 +71,7 @@ body {
 }
 
 #recent {
+    min-height: 1em;
     font-size: 25px;
 }
 
@@ -79,6 +81,7 @@ body {
 }
 
 #calculations {
+    min-height: 1em;
     font-size: 55px;
 }
 
@@ -128,4 +131,25 @@ body {
     height: 23%;
     width: 23%;
     margin: 2px;
+}
+
+
+/* footer */
+.footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 10px;
+    font-size: 20px;
+}  
+
+.github {
+    color: var(--primary-dark);
+    font-size: 24px;
+    transition: transform 0.3s ease-in-out;
 }
