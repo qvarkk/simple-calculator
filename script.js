@@ -22,6 +22,11 @@ function returnToDefault() {
     screenRecent.classList.add('transparent');
 }
 
+function removeLastNumber() {
+    valueEnteredNow = valueEnteredNow.slice(0,-1);
+    screenNow.innerHTML = valueEnteredNow;    
+}
+
 //operators
 
 function getOperatorInput(operator) {
@@ -162,3 +167,13 @@ function operate(operator, a, b) {
         return parseFloat(b);
     }
 }
+
+let intervalId = window.setInterval(function(){
+    if (screenNow.innerHTML.length > 11) {
+        alert('Max char limit reached. To prevent anything from breaking calculator will be restarted!');
+        returnToDefault();
+    } else if (screenRecent.innerHTML.length > 16) {
+        alert('Max char limit reached. To prevent anything from breaking calculator will be restarted!');
+        returnToDefault();
+    }
+  }, 500);
