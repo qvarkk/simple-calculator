@@ -61,6 +61,25 @@ function getOperatorInput(operator) {
 
         lastOperator = operator;
         lastAction = 'operator';
+    } else if (lastAction === 'decimal') { 
+        if (lastOperator === '') { //makes it properly work in the beginning and after clearing
+            screenNow.innerHTML = valueEnteredNow + '0';
+            valueEnteredBefore = valueEnteredNow + '0';
+
+            screenRecent.innerHTML = valueEnteredBefore + operator;
+
+            lastOperator = operator;
+            lastAction = 'operator';
+        } else {
+            screenRecent.innerHTML = operate(lastOperator, valueEnteredBefore, valueEnteredNow) + '0' + operator;
+            screenNow.innerHTML = operate(lastOperator, valueEnteredBefore, valueEnteredNow) + '0';
+            
+            valueEnteredNow = screenNow.innerHTML + '0';
+            valueEnteredBefore = valueEnteredNow + '0';
+
+            lastOperator = operator;
+            lastAction = 'operator';
+        }
     } else {
         return;
     }
@@ -90,11 +109,32 @@ function getNumberInput(number) {
 }
 
 //special
+function addDecimalPoint() {
+    if (lastAction === 'number') {
+        screenNow.innerHTML += '.';
+        valueEnteredNow = screenNow.innerHTML;
+
+        lastAction = 'decimal';
+    } else if (lastAction === 'equals') {
+        returnToDefault();
+
+        screenNow.innerHTML = '0.';
+
+        valueEnteredNow = screenNow.innerHTML;
+        lastAction = 'decimal';
+    } else if (lastAction === 'operator') {
+        screenNow.innerHTML = '0.';
+
+        valueEnteredNow = screenNow.innerHTML;
+        lastAction = 'decimal';
+    }
+}
+
 
 function finishEquasion() {
     screenRecent.classList.remove('transparent');
     if (lastOperator !== '') {
-        if (lastAction === 'number') {
+        if (lastAction === 'number' || lastAction === 'decimal') {
             screenNow.innerHTML = operate(lastOperator, valueEnteredBefore, valueEnteredNow);
             screenRecent.innerHTML = `${valueEnteredBefore}${lastOperator}${valueEnteredNow}=`
             lastAction = 'equals';
