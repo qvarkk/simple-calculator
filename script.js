@@ -1,33 +1,79 @@
-let currentValue = '0';
-let currentCalc = 0;
-
-let screenCalc = document.getElementById('calculations');
+//paragraphs that show 
+let screenNow = document.getElementById('calculations');
 let screenRecent = document.getElementById('recent');
 
-function addNewValue(value) {
-    checkAction('adding value');
-    if (screenCalc.innerHTML !== '0') {
-        screenCalc.innerHTML += value;
+//variables to store states
+let lastAction = 'number';
+let lastOperator = '';
+
+//variables to store values to do math
+let valueEnteredBefore = 0;
+let valueEnteredNow = 0;
+
+//removing
+
+//operators
+
+function getOperatorInput(operator) {
+    screenRecent.classList.remove('transparent');
+    if (lastAction === 'number') {
+        if (lastOperator === '') { //makes it properly work in the beginning and after clearing
+            screenNow.innerHTML = valueEnteredNow;
+            valueEnteredBefore = valueEnteredNow;
+
+            screenRecent.innerHTML = valueEnteredBefore + operator;
+
+            lastOperator = operator;
+            lastAction = 'operator';
+        } else {
+            screenRecent.innerHTML = operate(lastOperator, valueEnteredBefore, valueEnteredNow) + operator;
+            screenNow.innerHTML = operate(lastOperator, valueEnteredBefore, valueEnteredNow);
+            
+            valueEnteredNow = screenNow.innerHTML;
+            valueEnteredBefore = valueEnteredNow;
+
+            lastOperator = operator;
+            lastAction = 'operator';
+        }
+    } else if (lastAction === 'operator') {
+        screenRecent.innerHTML = valueEnteredNow + operator;
+
+        lastOperator = operator;
+        lastAction = 'operator';
     } else {
-        screenCalc.innerHTML = value;
+        return;
     }
 }
 
-function addNewAction(operator) {
-    if (checkAction('operating')) {
-        operate(operator);
+//numbers
+
+function getNumberInput(number) {
+    if (lastAction === 'equals' || lastAction === 'operator' || screenNow.innerHTML === '0') {
+        screenNow.innerHTML = number;
+        valueEnteredNow = screenNow.innerHTML;
+        lastAction = 'number';
     } else {
-        screenRecent.innerHTML = currentCalc + operator;
+        screenNow.innerHTML += number;
+        valueEnteredNow = screenNow.innerHTML;
+        lastAction = 'number';
     }
 }
 
-function clearScreen() {
-    screenCalc.innerHTML = '0';
-    screenRecent.innerHTML = '0';
-    currentCalc = 0;
-    lastAction = '';
-    lastOperator = '';
+//special
+
+function finishEquasion() {
+    screenRecent.classList.remove('transparent');
+    if (lastOperator !== '') {
+        if (lastAction === 'number') {
+            screenNow.innerHTML = operate(lastOperator, valueEnteredBefore, valueEnteredNow);
+            screenRecent.innerHTML = `${valueEnteredBefore}${lastOperator}${valueEnteredNow}=`
+            lastAction = 'equals';
+        }
+    } else {
+        return;
+    }
 }
+
 
 //removing
 const clearButton = document.getElementById('clear');
@@ -53,65 +99,39 @@ const decimalButton = document.getElementById('decimal');
 const equalsButton = document.getElementById('equals');
 
 //removing
-clearButton.onclick = () => {clearScreen()};
-eraseButton.onclick = () => {removeOldValue()};
+clearButton.onclick = () => {returnToDefault()};
+eraseButton.onclick = () => {removeLastNumber()};
 //operators
-additionButton.onclick = () => {addNewAction('+')};
-subtractionButton.onclick = () => {addNewAction('-')};
-multiplyButton.onclick = () => {addNewAction('*')};
-divisionButton.onclick = () => {addNewAction('/')};
+additionButton.onclick = () => {getOperatorInput('+')};
+subtractionButton.onclick = () => {getOperatorInput('-')};
+multiplyButton.onclick = () => {getOperatorInput('*')};
+divisionButton.onclick = () => {getOperatorInput('/')};
 //numbers
-oneButton.onclick = () => {addNewValue('1')};
-twoButton.onclick = () => {addNewValue('2')};
-threeButton.onclick = () => {addNewValue('3')};
-fourButton.onclick = () => {addNewValue('4')};
-fiveButton.onclick = () => {addNewValue('5')};
-sixButton.onclick = () => {addNewValue('6')};
-sevenButton.onclick = () => {addNewValue('7')};
-eightButton.onclick = () => {addNewValue('8')};
-nineButton.onclick = () => {addNewValue('9')};
-zeroButton.onclick = () => {addNewValue('0')};
+oneButton.onclick = () => {getNumberInput('1')};
+twoButton.onclick = () => {getNumberInput('2')};
+threeButton.onclick = () => {getNumberInput('3')};
+fourButton.onclick = () => {getNumberInput('4')};
+fiveButton.onclick = () => {getNumberInput('5')};
+sixButton.onclick = () => {getNumberInput('6')};
+sevenButton.onclick = () => {getNumberInput('7')};
+eightButton.onclick = () => {getNumberInput('8')};
+nineButton.onclick = () => {getNumberInput('9')};
+zeroButton.onclick = () => {getNumberInput('0')};
 //special
 decimalButton.onclick = () => {addDecimalPoint()};
-equalsButton.onclick = () => {addNewAction('=')};
+equalsButton.onclick = () => {finishEquasion()};
 
-let lastAction = 'operating';
-function checkAction(action) {
-    if (lastAction === 'operating') {
-        lastAction = action;
-        return false;
-    } else {
-        lastAction = action;
-        return true;
-    }
-}
-
-let lastOperator = '';
-function doAction(a, b) {
-    if (lastOperator === '+') {
-        currentCalc = b + a;
-    } else if (lastOperator === '-') {
-        currentCalc = b - a;
-    } else if (lastOperator === '*') {
-        currentCalc = b * a;
-    } else if (lastOperator === '/') { 
-        currentCalc = b / a;
-    } else {
-        currentCalc = screenCalc.innerHTML;
-    }
-}
-
-function operate(operator) {
-    let a = parseFloat(screenCalc.innerHTML);
-    let b = parseFloat(screenRecent.innerHTML.slice(0,-1));
-    doAction(a, b);
-    if (operator !== '=') {
-        screenRecent.innerHTML = currentCalc + operator;
-        lastOperator = operator;
-        screenCalc.innerHTML = '0';
-    } else {
-        screenRecent.innerHTML = b + lastOperator + a + '='
-        lastOperator = '='
-        screenCalc.innerHTML = currentCalc
+//functions
+function operate(operator, a, b) {
+    if (operator === '+') {
+        return parseFloat(a) + parseFloat(b);
+    } else if (operator === '-') {
+        return parseFloat(a) - parseFloat(b);
+    } else if (operator === '*') {
+        return parseFloat(a) * parseFloat(b);
+    } else if (operator === '/') {
+        return parseFloat(a) / parseFloat(b);
+    } else if (operator === '=') {
+        return parseFloat(b);
     }
 }

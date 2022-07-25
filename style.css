@@ -73,6 +73,11 @@ body {
     font-size: 25px;
 }
 
+/* Makes element invisible in the start */
+.transparent {
+    opacity: 0;
+}
+
 #calculations {
     font-size: 55px;
 }
